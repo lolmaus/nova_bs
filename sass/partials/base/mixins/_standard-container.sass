@@ -1,11 +1,11 @@
 =standard-container
-  +container
-  max-width: $max-width
+  +container                // Set up the container!
+  max-width: $max-width     // Limit its maximum width
 
+  // Apply stuff to the container based on how many columns can fit into the window
   @each $column in $columns-list
-    +at-breakpoint($column)
-      +set-container-width
-      +dev-grid-bg
-      $gutter:      gutter($column) / 2
-      margin-left:  $gutter
-      margin-right: $gutter
+    +at-breakpoint($column)               // Set a media query for each number in the list of columns
+      +dev-grid-bg                        // Apply column backgrounds, useful for development
+      $gutter:      gutter($column) / 2   // Apply gutters on the side of the container
+      padding-left:  $gutter
+      padding-right: $gutter
