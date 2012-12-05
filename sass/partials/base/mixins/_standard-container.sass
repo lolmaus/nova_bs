@@ -1,0 +1,11 @@
+=standard-container
+  +container
+  max-width: $max-width
+
+  @each $column in $columns-list
+    +at-breakpoint($column)
+      +set-container-width
+      +dev-grid-bg
+      $gutter:      gutter($column) / 2
+      margin-left:  $gutter
+      margin-right: $gutter

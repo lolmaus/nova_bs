@@ -10,7 +10,7 @@ base = boron_sulfide
 ; We use [screen] instead of [all] to avoid browser styles affecting
 ; other media types. IE stylesheets are loaded through template.php
 
-
+stylesheets[all][] = css/style.css
 
 ; Regions --------------------------------------------------------------------
 ; these content regions are available for block placement
@@ -50,3 +50,7 @@ settings[breadcrumb_separator] = ' › '
 settings[breadcrumb_home]      = 1
 settings[breadcrumb_trailing]  = 0
 settings[breadcrumb_title]     = 0
+
+; Fusion Apply
+fusion[api] = 2
+fusion[directory] = fusion_apply_skins

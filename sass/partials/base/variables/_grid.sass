@@ -1,0 +1,24 @@
+//////////////
+// Grid Settings
+//////////////
+
+// The website will be rendered using a number of columns from this list of numbers
+// Which one? It depends on how many columns can fit into given window width and based on the width of a single column
+$columns-list:        1 2 3 4 5
+
+// Mobile first! Start with the lowest number of columns (first value from the list), then scale if possible
+$total-columns:       nth($columns-list, 1)
+
+// Setting the width of a column and a gutter
+$column-and-gutter:   240px // The width of a column and a gutter combined
+$column-gutter-ratio: .85   // The ratio between columns and gutters
+$column-width:        $column-and-gutter * $column-gutter-ratio
+$gutter-width:        $column-and-gutter - $column-width
+
+// After a certain number of columns is put into the window, they should stretch to fill the remaining width
+$container-style:     fluid
+$max-width:           1400px  // But don't stretch wider than this
+
+$grid-padding:        0       // The gutter on the sides of container is set elsewhere
+
+$vertical-margin:     2em     // This value is used in styles to span elements vertically
