@@ -4,20 +4,23 @@ $development: true
 // GLOBAL
 /////////
 
-// Imports
-@import partials/base/_imports.sass
-
-// Reset
-@import partials/base/_reset.sass
-
 // Variables
 @import partials/base/variables/_grid.sass
+@import partials/base/variables/_colors.sass
+@import partials/base/variables/_fonts.sass
+
+// Imports
+@import partials/base/_imports.sass
 
 // Mixins
 @import partials/base/mixins/_development.sass
 @import partials/base/mixins/_horiz-list.sass
 @import partials/base/mixins/_inverted-color.sass
 @import partials/base/mixins/_standard-container.sass
+@import "partials/base/mixins/_span-pair.sass"
+
+// Reset
+@import partials/base/_reset.sass
 
 
 
@@ -27,3 +30,27 @@ $development: true
 
 // Imports
 @import partials/layout/_main-container.sass
+
+
+
+//////////
+// DECORATION
+/////////
+
+// HTML Elements
+@import partials/decoration/html-elements/_html.sass
+@import partials/decoration/html-elements/_lists.sass
+
+// Sections
+@import partials/decoration/sections/_header_wrapper.sass
+@import partials/decoration/sections/_subheader.sass
+
+
+
+//////////
+// FUSION APPLY SKINS
+/////////
+
+// Imports
+@import partials/fusion-apply-skins/_regoin-based.sass
+@import partials/fusion-apply-skins/_layout.sass

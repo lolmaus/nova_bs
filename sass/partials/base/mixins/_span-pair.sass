@@ -1,0 +1,25 @@
+// Used to span a pair blocks in the container
+// Provide:
+// * $span-cols: the width of one block (in columns)
+// * $total-cols: the width of container
+// * $omega: ignore this to span the first block or set it to `omega` to span the second block.
+//
+// Example usage:
+//
+// #container
+//   +container
+//
+//   $span-cols: 2
+//   $total-cols: $total-columns
+//   & > :first-child
+//     +span-pair($span-cols, $total-cols)
+//   & > :last-child
+//     +span-pair($span-cols, $total-cols, omega)
+=span-pair($span-cols, $total-cols, $omega: "")
+  +at-breakpoint($total-cols)
+
+    @if $omega == omega
+      +span-columns($total-cols - $span-cols $omega, $total-cols)
+    @else
+      +span-columns($span-cols, $total-cols)
+

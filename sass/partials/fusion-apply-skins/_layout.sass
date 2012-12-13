@@ -1,0 +1,35 @@
+// Applying column span
+@each $col in $columns-list
+  .fa-span-#{$col}
+    +dev-outline
+    @each $col-bp in $columns-list
+      @if $col <= $col-bp
+        +at-breakpoint($col-bp)
+          +span-columns($col) // At first we add omega to all elements and then reset it where not necessary.
+  @if $col != nth($columns-list, length($columns-list))
+    .fa-span-#{$col}-omega
+      +dev-outline
+      @each $col-bp in $columns-list
+        @if $col <= $col-bp
+          +at-breakpoint($col-bp)
+            +span-columns($col omega)
+
+  // Setting omega
+  @if $col != nth($columns-list,1) // For all column widths except the first one
+    .fa-apply-omega-#{$col}
+
+      // Apply only when screen width is no less than one column
+      // and no larger than current column width + 1
+      @media (min-width: fix-ems(columns-width(nth($columns-list,1)))) and (max-width: fix-ems(columns-width($col + 1)))
+        +omega
+
+    @each $col-bp in $columns-list
+      @if $col < $col-bp
+        +at-breakpoint($col-bp)
+          .fa-bp-#{$col-bp}-span-#{$col}
+            +span-columns($col, $col-bp)
+            +dev-outline
+
+          .fa-bp-#{$col-bp}-span-#{$col}-omega
+            +span-columns($col omega, $col-bp)
+            +dev-outline

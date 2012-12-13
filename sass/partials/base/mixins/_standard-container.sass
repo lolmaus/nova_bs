@@ -1,11 +1,16 @@
+=apply-container-stuff($column: nth($columns-list, 1))
+  +dev-grid-bg                        // Apply column backgrounds, useful for development
+  $gutter:      gutter($column) / 2   // Apply gutters on the side of the container
+  padding-left:  $gutter
+  padding-right: $gutter
+
 =standard-container
   +container                // Set up the container!
+  +apply-container-stuff    // The mobile-first layout is applied without a media query
   max-width: $max-width     // Limit its maximum width
 
   // Apply stuff to the container based on how many columns can fit into the window
   @each $column in $columns-list
-    +at-breakpoint($column)               // Set a media query for each number in the list of columns
-      +dev-grid-bg                        // Apply column backgrounds, useful for development
-      $gutter:      gutter($column) / 2   // Apply gutters on the side of the container
-      padding-left:  $gutter
-      padding-right: $gutter
+    @if $column != nth($columns-list, 1) // Do not apply for the first column size because it has already been applied
+      +at-breakpoint($column)            // Set a media query for each number in the list of columns
+        +apply-container-stuff($column)

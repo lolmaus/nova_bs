@@ -1,0 +1,30 @@
+// Applying two backgrounds
+
+$rainbow-line-thickness: 2px
+
+#header-wrapper
+  +background-image(linear-gradient(left, #F858EF, #FFE413))
+  padding-bottom: $rainbow-line-thickness
+
+#header-wrapper-inner
+  background:       url("../images/header-glow.png") no-repeat scroll center bottom $color-header-background
+
+  +inverted-color
+
+
+// Setting up the container and columns
+
+
+  //$header-first-span: 2
+  //$cols:              nth($columns-list, 3), nth($columns-list, 4), nth($columns-list, 5)
+  //
+  //&.header-first.header-second > :first-child
+  //  @each $col in $cols
+  //    +span-pair($header-first-span, $col)
+  //
+  //&.header-first.header-second > :nth-child(2)
+  //  @each $col in $cols
+  //    +span-pair($header-first-span, $col, omega)
+
+  //padding-top:    rhythm(1)
+  //padding-bottom: rhythm(1,$offset: $rainbow-line-thickness)

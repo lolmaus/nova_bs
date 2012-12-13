@@ -1,25 +1,24 @@
 ; Theme Info -----------------------------------------------------------------
 ; required information about the theme
 
-name = Nova BS
-description = A subtheme of Boron Sulfide, copied from http://luiszuno.com/blog/downloads/nova-theme-wordpress/
-core = 7.x
-base = boron_sulfide
+name =        Nova BS
+description = A subtheme of Boron, copied from <a href="http://luiszuno.com/blog/downloads/nova-theme-wordpress/">Nova Wordpress Theme</a>
+core =        7.x
+base theme =  boron
+
+settings[columns_list] = 1 2 3 4 5
 
 ; Stylesheets  ---------------------------------------------------------------
-; We use [screen] instead of [all] to avoid browser styles affecting
-; other media types. IE stylesheets are loaded through template.php
+; Disabling default Boron layout by declaring a non-existent stylesheet with the same name.
+stylesheets[all][] = css/layout.css
 
+; Everything goes here
 stylesheets[all][] = css/style.css
 
 ; Regions --------------------------------------------------------------------
 ; these content regions are available for block placement
-; some are special hidden regions: page_top, page_bottom, and help
-
-; these are the stock regions
 regions[header_top] = Header top
-regions[header_first] = Header First
-regions[header_second] = Header Second
+regions[header] = Header
 regions[subheader] = Subheader
 regions[ie_only] = IE Only
 regions[highlighted] = Highlighted
@@ -29,27 +28,6 @@ regions[content] = Content
 regions[sidebar_second] = Sidebar Second
 regions[postscript] = Postscript
 regions[footer] = Footer
-
-; Options --------------------------------------------------------------------
-; these are the checkboxes that are available on the theme settings page.
-
-; these are the stock options
-; features[] = logo
-; features[] = name
-; features[] = slogan
-; features[] = node_user_picture
-; features[] = comment_user_picture
-; features[] = comment_user_verification
-; features[] = favicon
-; features[] = main_menu
-; features[] = secondary_menu
-
-; additional theme settings
-settings[breadcrumb_display]   = no
-settings[breadcrumb_separator] = ' › '
-settings[breadcrumb_home]      = 1
-settings[breadcrumb_trailing]  = 0
-settings[breadcrumb_title]     = 0
 
 ; Fusion Apply
 fusion[api] = 2
