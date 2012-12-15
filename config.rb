@@ -2,7 +2,7 @@
 #require 'zen-grids'
 #require 'breakpoint'
 require 'susy'
-require 'toolkit'
+#require 'breakpoint'
 
 # Set this to the root of your project when deployed:
 css_dir = "css"
@@ -14,4 +14,4 @@ images_dir = "images"
 # To enable relative paths to assets via compass helper functions. Uncomment:
 relative_assets = true
 
-sass_options = {:debug_info => true}
+sass_options = {:debug_info => false}

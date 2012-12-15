@@ -10,7 +10,7 @@
   $form['layout']['columns_list'] = array(
       '#type'  => 'textfield',
       '#title' => t('Breakpoints'),
-      '#description' => t('List of unitless column widths, separated by spaces, i. e. `1 2 3 4 5`'),
+      '#description' => t('List of unitless column widths, separated by spaces, i. e. `1 2 3 4 5`. After modifying this option, you must flush all caches twice.'),
       '#default_value' => theme_get_setting('columns_list'),
       '#size' => 8,
       '#maxlength' => 10,

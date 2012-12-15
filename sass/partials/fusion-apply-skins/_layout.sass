@@ -1,35 +1,132 @@
-// Applying column span
-@each $col in $columns-list
+// Returns nth breakpoint
+@function bp($bp-i)
+  @return nth($columns-list, $bp-i)
+
+// Accepts a number of columns
+// Returns the em/px width of a container that wide
+@function col-width($col)
+  @return fix-ems(columns-width($col))
+
+// Some constants
+$number-of-bps: length($columns-list)
+$first-bp:      bp(1)
+$last-bp:       bp($number-of-bps)
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// Cycling through all (integer) column widths starting with 1 and ending with the largest breakpoint value
+////////////////////////////////////////////////////////////////////////////////////////////
+@for $col from 1 through $last-bp
+
+  ////////////////////////////////////////////////////////////////////////////////////////////
+  // Applying outlines
+  ////////////////////////////////////////////////////////////////////////////////////////////
   .fa-span-#{$col}
-    +dev-outline
-    @each $col-bp in $columns-list
-      @if $col <= $col-bp
-        +at-breakpoint($col-bp)
-          +span-columns($col) // At first we add omega to all elements and then reset it where not necessary.
-  @if $col != nth($columns-list, length($columns-list))
+    @extend .dev-outline
+
+  @if $col != $last-bp // Skip the largest column width
     .fa-span-#{$col}-omega
-      +dev-outline
-      @each $col-bp in $columns-list
-        @if $col <= $col-bp
-          +at-breakpoint($col-bp)
-            +span-columns($col omega)
+      @extend .dev-outline
 
-  // Setting omega
-  @if $col != nth($columns-list,1) // For all column widths except the first one
-    .fa-apply-omega-#{$col}
+  ////////////////////////////////////////////////////////////////////////////////////////////
+  // Cycling through all breakpoint values
+  ////////////////////////////////////////////////////////////////////////////////////////////
+  // @each $bp in $columns-list
+  @for $bp-i from 1 through $number-of-bps
+    $bp: bp($bp-i)
+    @if $bp != $first-bp // Skip the first value
 
-      // Apply only when screen width is no less than one column
-      // and no larger than current column width + 1
-      @media (min-width: fix-ems(columns-width(nth($columns-list,1)))) and (max-width: fix-ems(columns-width($col + 1)))
+      ////////////////////////////////////////////////////////////////////////////////////////////
+      // Applying outlines
+      ////////////////////////////////////////////////////////////////////////////////////////////
+      .fa-bp-#{$bp}-span-#{$col}
+        @extend .dev-outline
+
+      @if $col != $last-bp // Skip the largest column width
+        .fa-bp-#{$bp}-span-#{$col}-omega
+          @extend .dev-outline
+
+      // Applying min-width media queries
+      +at-breakpoint($bp)
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // Applying normal column span
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        @if $col <= $bp // Don't create classes with column width larger than current breakpoint value
+          .fa-span-#{$col} //, .fa-bp-#{$bp}-span-#{$col}
+            /* Col: #{$col}, BP: #{$bp} */
+            +span-columns($col) // At first we add omega to all elements and then reset it where not necessary.
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // Applying omega column-span
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        @if $col < $bp // Don't create classes with column width larger than current breakpoint value
+          .fa-span-#{$col}-omega //, .fa-bp-#{$bp}-span-#{$col}-omega
+            /* Col: #{$col}, BP: #{$bp} */
+            +span-columns($col omega) // At first we add omega to all elements and then reset it where not necessary.
+
+      // Here min- and max-width media queries are applied.
+      // But there's an exception for the last breakpoint: there should be no max-width for it.
+      @if $bp < $last-bp
+        //Applying min- and max-width media queries
+        +at-breakpoint(col-width($bp) col-width(bp($bp-i + 1)))
+
+          ////////////////////////////////////////////////////////////////////////////////////////////
+          // Applying BP-specific column span
+          ////////////////////////////////////////////////////////////////////////////////////////////
+          @if $col <= $bp // Don't create classes with column width larger than current breakpoint value
+            .fa-bp-#{$bp}-span-#{$col} //, .fa-bp-#{$bp}-span-#{$col}
+              /* Col: #{$col}, BP: #{$bp} */
+              +span-columns($col, $bp) // At first we add omega to all elements and then reset it where not necessary.
+
+          ////////////////////////////////////////////////////////////////////////////////////////////
+          // Applying BP-specific omega column-span
+          ////////////////////////////////////////////////////////////////////////////////////////////
+          @if $col < $bp // Don't create classes with column width larger than current breakpoint value
+            .fa-bp-#{$bp}-span-#{$col}-omega //, .fa-bp-#{$bp}-span-#{$col}-omega
+              /* Col: #{$col}, BP: #{$bp} */
+              +span-columns($col omega, $bp) // At first we add omega to all elements and then reset it where not necessary.
+
+      @else if $bp == $last-bp
+        // Applying only min-width media query for the last breakpoint
+        +at-breakpoint($bp)
+
+          ////////////////////////////////////////////////////////////////////////////////////////////
+          // Applying BP-specific column span
+          ////////////////////////////////////////////////////////////////////////////////////////////
+          @if $col <= $bp // Don't create classes with column width larger than current breakpoint value
+            .fa-bp-#{$bp}-span-#{$col} //, .fa-bp-#{$bp}-span-#{$col}
+              /* Col: #{$col}, BP: #{$bp} */
+              +span-columns($col) // At first we add omega to all elements and then reset it where not necessary.
+
+          ////////////////////////////////////////////////////////////////////////////////////////////
+          // Applying BP-specific omega column-span
+          ////////////////////////////////////////////////////////////////////////////////////////////
+          @if $col < $bp // Don't create classes with column width larger than current breakpoint value
+            .fa-bp-#{$bp}-span-#{$col}-omega //, .fa-bp-#{$bp}-span-#{$col}-omega
+              /* Col: #{$col}, BP: #{$bp} */
+              +span-columns($col omega, $bp) // At first we add omega to all elements and then reset it where not necessary.
+
+
+
+// Cycling through all breakpoints starting with 2nd
+@for $bp-i from 2 through $number-of-bps - 1
+  $bp: bp($bp-i)
+
+  ////////////////////////////////////////////////////////////////////////////////////////////
+  // Applying omega when container width is equal to or less than BP
+  ////////////////////////////////////////////////////////////////////////////////////////////
+
+  @if $bp-i == $number-of-bps -1
+    +at-breakpoint(col-width(bp(2)) col-width(bp($bp-i + 1)))
+      .fa-apply-omega-bp-#{$bp}
+        /* BP: #{bp(2)}-#{$bp} */
         +omega
 
-    @each $col-bp in $columns-list
-      @if $col < $col-bp
-        +at-breakpoint($col-bp)
-          .fa-bp-#{$col-bp}-span-#{$col}
-            +span-columns($col, $col-bp)
-            +dev-outline
+  @if $bp-i == $number-of-bps
+    +at-breakpoint(col-width(bp(2)))
+      .fa-apply-omega-bp-#{$bp}
+        /* BP: #{bp(2)}-#{$bp} */
+        +omega
 
-          .fa-bp-#{$col-bp}-span-#{$col}-omega
-            +span-columns($col omega, $col-bp)
-            +dev-outline

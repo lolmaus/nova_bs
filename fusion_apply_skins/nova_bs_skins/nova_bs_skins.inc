@@ -52,6 +52,7 @@ function nova_bs_fusion_apply_skin_nova_bs_skins_info() {
     'options' => _nova_bs_skins_apply_omega(),
   );
 
+  /* Cycle through breakpoints to generate a prefence for each breakpoint. */
   foreach (array_slice(_nova_bs_columns(),1,count(_nova_bs_columns()) - 1) as $i) {
     $skins["span_columns_bp_{$i}"] = array(
       'title' => t("When the window is exactly {$i} columns wide, span columns"),
@@ -73,51 +74,64 @@ function nova_bs_fusion_apply_skin_nova_bs_skins_info() {
  */
 function _nova_bs_skins_span_columns() {
   $options = array();
-  foreach (array_slice(_nova_bs_columns(),0,count(_nova_bs_columns()) - 1) as $i) {
-    $plural = ($i == 1) ? '' : 's';
-    $options["fa-span-{$i}"] = array(
-      'title' => "$i unit{$plural}",
-      'class' => "fa-span-{$i}"
+
+  /* Cycle through all integers starting with 1 and ending with largest breakpoint. */
+  for ($col = 1; $col <= end(_nova_bs_columns()); $col++) {
+    $plural = ($col == 1) ? '' : 's';
+
+    /* Add a span value */
+    $options["fa-span-{$col}"] = array(
+      'title' => "$col unit{$plural}",
+      'class' => "fa-span-{$col}"
     );
-  }
-  foreach (array_slice(_nova_bs_columns(),0,count(_nova_bs_columns()) - 1) as $i) {
-    $plural = ($i == 1) ? '' : 's';
-    $options["fa-span-{$i}-omega"] = array(
-      'title' => "$i unit{$plural}, omega",
-      'class' => "fa-span-{$i}-omega"
-    );
+
+    /* Add a span value with omega */
+    if ($col != end(_nova_bs_columns())) {
+      $options["fa-span-{$col}-omega"] = array(
+        'title' => "$col unit{$plural}, omega",
+        'class' => "fa-span-{$col}-omega"
+      );
+    }
   }
 
   return $options;
 }
 function _nova_bs_skins_apply_omega() {
   $options = array();
-  foreach (array_slice(_nova_bs_columns(),1,count(_nova_bs_columns()) - 1) as $i) {
-    $plural = ($i == 1) ? '' : 's';
-    $options["fa-apply-omega-{$i}"] = array(
-      'title' => "$i columns{$plural}",
-      'class' => "fa-apply-omega-{$i}"
+
+  /* Cycle through breakpoints starting with the second one. */
+  foreach (array_slice(_nova_bs_columns(),1,count(_nova_bs_columns()) - 1) as $bp) {
+    $plural = ($bp == 1) ? '' : 's';
+
+    /* Add omega */
+    $options["fa-apply-omega-bp-{$bp}"] = array(
+    'title' => "$bp unit{$plural}",
+    'class' => "fa-apply-omega-bp-{$bp}"
     );
   }
+
   return $options;
 }
 function _nova_bs_skins_span_columns_bp($width) {
   $options = array();
-  foreach (array_slice(_nova_bs_columns(),0,count(_nova_bs_columns()) - 1) as $i) {
-    if ($i <= $width) {
-      $plural = ($i == 1) ? '' : 's';
-      $options["fa-span-{$i}"] = array(
-        'title' => "$i unit{$plural}",
-        'class' => "fa-bp-{$width}-span-{$i}"
+
+  /* Cycle through all integers starting with 1 and ending with largest breakpoint. */
+  for ($col = 1; $col <= end(_nova_bs_columns()); $col++) {
+    $plural = ($col == 1) ? '' : 's';
+
+    /* Add a span value */
+    if ($col <= $width) {
+      $options["fa-bp-{$width}-span-{$col}"] = array(
+        'title' => "$col unit{$plural}",
+        'class' => "fa-bp-{$width}-span-{$col}"
       );
     }
-  }
-  foreach (array_slice(_nova_bs_columns(),0,count(_nova_bs_columns()) - 1) as $i) {
-    if ($i <= $width) {
-      $plural = ($i == 1) ? '' : 's';
-      $options["fa-span-{$i}-omega"] = array(
-        'title' => "$i unit{$plural}, omega",
-        'class' => "fa-bp-{$width}-span-{$i}-omega"
+
+    /* Add a span value with omega */
+    if ($col < $width) {
+      $options["fa-bp-{$width}-span-{$col}-omega"] = array(
+        'title' => "$col unit{$plural}, omega",
+        'class' => "fa-bp-{$width}-span-{$col}-omega"
       );
     }
   }
